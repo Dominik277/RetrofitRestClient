@@ -5,11 +5,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import model.Movie;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import webservice.ApiInterface;
+import webservice.ServiceGenerator;
+
 import android.os.Bundle;
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final String TAG = MainActivity.class.getSimpleName();
 
     //u ovoj liniji koda smo samo definirali objekt recyclerView tipa RecyclerView
     //koji imamo u activity_main XML datoteci, te je taj objekt za sada prazan
@@ -65,5 +75,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getMovies() {
+
+        ApiInterface apiInterface = ServiceGenerator.createService(ApiInterface.class);
+        Call<List<Movie>> call = apiInterface.getMovies();
+        call.enqueue(new Callback<List<Movie>>() {
+            @Override
+            public void onResponse(Call<List<Movie>> call, Response<List<Movie>> response) {
+                if (response.isSuccessful()){
+                    for (Movie movie: response.body()){
+                        movies.add(movie);
+                    }
+                    moviesAdapter.notifyDataSetChanged();
+                }else {
+                    Log.e(TAG,response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Movie>> call, Throwable t) {
+                Log.e(TAG,t.getMessage());
+            }
+        });
+
     }
 }
