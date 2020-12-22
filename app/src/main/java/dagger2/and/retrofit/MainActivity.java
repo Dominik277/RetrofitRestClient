@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         getMovies();
     }
 
+    //zadatak ove metode je da ode na web, ponasa se kao client i uzme podatke sa servera
+    //na tocno onakav nacin kako smo definirali unutar ove metode
     private void getMovies() {
 
         ApiInterface apiInterface = ServiceGenerator.createService(ApiInterface.class);

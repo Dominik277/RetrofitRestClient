@@ -31,6 +31,20 @@ public interface ApiInterface {
     //atribute koje zelimo prikazati, na taj smo nacin odredili kako ce biti prikazani podaci
     //unutar JSON-a, odnosno kojim redosljedom
     @GET("films")
+
+    //Call --> preko ovoga interfejsa mozemo pozvati metode koje imaju za zadacu slanje zahtjeva
+    //         na neki WebServer i koje vracaju nazad odgovor toga servera
+    //         svaka metoda unutar interfejsa mora imati svoju anotaciju pomocu koje se opisuje
+    //         sta ce ta metoda raditi bez da implemenitramo njeno tijelo, nesto slicno kao u
+    //         Room-u kada samo u Dao klasi napravili tri metode za azuriranje, unosenj i brisanje
+    //         podataka pomocu anotacija @insert,@delete,@update.Te anotacije su metadate, sto
+    //         zapravo znaci podaci o podacima, te smo mi na taj nacin svim tim metoda pomocu tih
+    //         anotacija zapravo implementirali tijelo na "nevidljiv nacin" ajmo to tako reci,
+    //         odnosno dodali smo funkcionalnost toj metodu onakvu kakvu ta anotacija sadrzi u
+    //         sebi.Na isti ovaj nacin djeluje i anotacije @GET koja u sebi ima pohranjene sve
+    //         funkcionalnosti pa onda ta metoda ne mora biti implementirana.Anotacije se najcesce
+    //         i koriste u interfejsima, jer kod interfejsa tijelo metode ne smije biti inicijalizirano
+    //         a pomocu anotacija mi metodama dajemo funkcionalnost bez da dodajemo ista u njeno tijelo
     Call<List<Movie>> getMovies();
 
 }
