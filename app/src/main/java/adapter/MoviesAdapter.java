@@ -21,9 +21,25 @@ import model.Movie;
 //retku
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
+    //ovdje smo samo definirali List tip podataka te da cemo u taj List pohranjivati podatke
+    //tipa Movie, Movie nam je isto klasa kao i String,Double... te mozemo pohranjivati podatke
+    //ovog tipa.Movie klasa u sebi sadrzi neke member varijeble od kojih se moze napraviti objekt
+    //tako da ovaj tip podatka u sebi sadrzava te member varijable i te podatke tipa Movie cemo
+    //pohranjivati unutar objekta koji smo nazvali movies.List nam je interfejs unutar kojeg se
+    //pohranjuju podaci pohranjuju u nekakvom pravilnom redosljedu
     private List<Movie> movies;
+
+    //ovdje smo samo naveli ime preko kojeg cemo se obracati objektu u memoriji tipa Context, taj
+    //objekt u memoriji jos uvijek nije stvoren nego smo samo za sad njegovu referencu stvorili
     private Context context;
 
+
+    //ovo je konstruktor ove klase koji nam sluzi da preda podatke objektu kada se objekt bude inicijalizirao
+    //znaci i prije smo rekli da adapter mora imati podatke koje RecylcerView treba prikazati, odnosno da mu
+    //on predaje te podatke i sada kad mi pravimo objekt ove MoviesAdapter klase mi njemu kao argument
+    //konstruktora dajemo Listu "moviesa" odnosno listu svih tih filmova koje smo dobili pomocu klase Movie
+    //i sada taj objekt koji se kreira od ove klase u sebi ima podatke koje RecyclerView treba prikazati i
+    //onda se taj objekt samo prilozi RecylcerView-u preko setAdapter() metode.
     public MoviesAdapter(Context context,List<Movie> movies) {
         this.movies = movies;
         this.context = context;
@@ -38,9 +54,17 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         return new ViewHolder(itemView);
     }
 
+    //ovo ce mi biti lakse ako zapamtim na sljedeci nacin, znaci kada koristimo RecyclerView onda imamo samo tipa
+    //10 redove na screen-u i mozda dva koja su u pripravi koji se recikliraju i svaki put kada jedan redak nestane
+    //sa screen-a on ce doci ponovno na screen jer se reciklira, ali ovoga puta bez podataka i upravo je to zadaca
+    //ove metode, da onaj redak koji treba biti prikazan sljedeci na zaslonu napuni podacima
+    //holder -->
+    //position --> ovaj parametar predstavlja poziciju elementa unutar neke kolekcije podataka gdje smo spremili
+    //             u nasem slucaju broj elementa unutar List-a
     @Override
     public void onBindViewHolder(@NonNull MoviesAdapter.ViewHolder holder, int position) {
 
+        //
         Movie movie = movies.get(position);
         holder.title.setText(movie.getTitle());
         holder.director.setText(movie.getDirector());
@@ -48,6 +72,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
     }
 
+    //ova metoda nam sluzi kako bi odredila koliko ima elemenata u nekoj kolekciji koju mi koristimo
+    //znaci, movies smo rekli da ce ih biti vise i da ce svaki biti poredan unutar List-a, znaci ako
+    //imamo unutar List-a tri razlicita movies objekta onda ova metoda vraca broj tri i tako dalje
     @Override
     public int getItemCount() {
         return movies.size();
