@@ -45,9 +45,18 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         this.context = context;
     }
 
+    //ova metoda se poziva da kreira jedan redak na zaslonu onda kada treba, zamislimo to ovako, na zaslonu stane
+    //pet redaka, a korisnik krece skrolati i aplikacija nema niti jedan redak u rezervi da stvori i kada je to
+    //potrebno, da se stvori jos jedan redak, onda se poziva ova metoda
     @NonNull
     @Override
     public MoviesAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        //kao sto smo vec ranije i rekli ova metoda se koristi kako bi se kreirao cijeli redak s podacima kada zatreba
+        //a u ovom dijelu koda to i definiramo.Znaci na desnoj strani smo pomocu LayoutInflater abstraktne klase pozvali
+        //metodu inflate() kojoj kao argument prilazemo onaj layout koji smo definirali onako kako zelimo da nas jedan
+        //redak izgleda, to smo pomocu te metode pretvorili u Java objekt i pohranili u varijablu itemView tipa View, te
+        //smo ovaj cijeli redak ajmo reci grupirali kao jednu cijelinu unutar varijable tipa View imena itemView, znaci
+        //itemView nam predstavlja jedan redak unutar RecyclerView-a
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_movie,parent,false);
 
@@ -64,8 +73,20 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull MoviesAdapter.ViewHolder holder, int position) {
 
-        //
+        //znaci ova metoda se poziva svaki puta kada se novi redak pojavi na zaslonu i zbog toga
+        //se filmovi mjenjanju, a samim time i njihove pozicije kao elemenata unutar neke kolekije
+        //podataka i zbog toga u na desnoj strani cemo dobiti broj, zbog toga sto je na movies objekt
+        //pozvana metoda get(positio) koja odlazi u tu List-u te provjerava koje je broj tog elementa
+        //unutar te List-e i to sve smo pohranili unutar movie objekta.
         Movie movie = movies.get(position);
+
+        //holder mozemo zamisliti kao nekakav kontejner u koji cemo pohranjujemo podatke, a u nasem
+        //slucaju su to tri TextView-a koje imamo u nasem layout-u
+        //znaci prva linija bi isla nekako ovako, u prvi view tipa TextView koji smo nazvali title
+        //cemo postaviti tekst pomocu setText() metode, a toj metodi kao parametar predajemo getter
+        //movie objekt koji nam vraca vrijednost member varijable, jer je ta member varijabla private
+        //znaci svaki movie objekt ima posebne vrijednost unutar svojih member varijabli koje dohvacamo
+        //pomocu gettera i postavljamo ih pomocu setText() metode
         holder.title.setText(movie.getTitle());
         holder.director.setText(movie.getDirector());
         holder.description.setText(movie.getDescription());
@@ -97,7 +118,8 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         //ovo je konstruktor u cijem tijelu smo java objektima dodjelili atribute iz XML-a
         public ViewHolder(@NonNull View itemView) {
 
-            //?????????????????????????????
+            //ovdje pozivamo itemView nadklase, a itemView nadklase se nalazi u onCreateViewHolder()
+            //metodi
             super(itemView);
 
             //u sljedeca tri reda smo atribute iz XML-a dodjelili java objektima, odnosno
