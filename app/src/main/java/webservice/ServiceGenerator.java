@@ -47,11 +47,27 @@ public class ServiceGenerator {
     private static HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY);
 
+    //HTTP je nacin na koji moderne aplikacije ostvaruju networking, na taj nacin se prenose podaci i
+    //informacije od servera i klijenta i obrnuto, ako je taj networking efikasniji onda nam je i
+    //aplikacija brza, a upravo to je zadata OkHttpClient library-a, OkHttp library radi najbolje kada
+    //se od nje napravi samo jedna instanca, odnosno singleton
+    //OkHttpClient --> ovo je klasa ciji je objekt zaduzen za slanje i primanje network zahtjeva
+    //addInterceptor() --> interceptori su jaki mehanizmi koji imaju mogucnost provjeravanja, ponovnog
+    //                     slanja i preoblikovanja networking zahtjeva za nekim podatkom, pomocu ove
+    //                     metode smo samo rekli da ce aplikacija imati interceptor, znaci dodali smo s
+    //                     tom metodom interceptor u cijelu aplikaciju koji ce sada voditi brigu o
+    //                     logiranju podataka koji stizu sa servera ili se salju na server
     private static OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor);
 
+
+    //ovdje smo na ovaj nacin stvorili varijablu okHttpClient u koju smo pohranili sve ono s desne
+    //strane, a na desnoj strani nam je objekt tipa OkHttpClient.Builder kojeg smo upogonili pomocu
+    //metode create(), sve do ovog koraka taj objekt je bio definiran, ali ne i upogonjen, ali smo
+    //ga sada upogonili
     private static OkHttpClient okHttpClient = okHttpClientBuilder.build();
 
+    //T --> ovo nam predstavlja class type parameter
     public static <T> T createService(Class<T> serviceClass){
         if (retrofit == null){
             retrofit = new Retrofit.Builder()
