@@ -69,6 +69,15 @@ public class ServiceGenerator {
 
     //T --> ovo nam predstavlja class type parameter
     public static <T> T createService(Class<T> serviceClass){
+
+        //u ovom dijelu koda provjeravamo ako je objekt klase Retrofit jednak null onda se izvrsava
+        //dio koda unutar viticastih zagrada, a dio unutar viticastih zagrada nam govori da onda
+        //inicijaliziramo retofit objekt pomocu konstruktora i puno ostalih elemenata
+        //client() --> ovaj metoda nam predstavlja klijenta koji je zasluzan za slanje zahtjeva serveru
+        //baseUrl() --> ovoj metodi kao argument prilazemo link webstranice s koje zelimo skidati podatke
+        //addConverterFactory() --> ova metoda se koristi za serijalizaciju i deserijalizaciju
+        //build() --> sve ono sto smo gore definirali ne bi bilo upogonjeno bez ove metode, onda je
+        //            zasluzna za kreiranje instance ove klase
         if (retrofit == null){
             retrofit = new Retrofit.Builder()
                     .client(okHttpClient)
